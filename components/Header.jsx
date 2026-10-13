@@ -1,11 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import { useCart } from "@/context/CartContext";
+import CartLink from "@/components/CartLink";
 
 export default function Header() {
-  const { itemCount } = useCart();
-
   return (
     <header className="mb-6 flex flex-col gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-4">
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
@@ -18,14 +14,7 @@ export default function Header() {
         </nav>
       </div>
 
-      <Link href="/cart" className="inline-flex w-fit items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 sm:shrink-0">
-        Cart
-        {itemCount > 0 && (
-          <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs text-white">
-            {itemCount}
-          </span>
-        )}
-      </Link>
+      <CartLink />
     </header>
   );
 }

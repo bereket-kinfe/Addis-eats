@@ -1,5 +1,3 @@
-"use client";
-
 export default function CategoryBar({ categories, selected, onSelect }) {
   return (
     <div className="flex flex-wrap gap-2">
