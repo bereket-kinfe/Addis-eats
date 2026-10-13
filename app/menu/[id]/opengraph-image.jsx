@@ -4,8 +4,12 @@ import { getDish } from "@/lib/api";
 
 export const size = { width: 1200, height: 630 };
 
+export const alt = "Addis Eats Ethiopian dish";
+export const contentType = "image/png";
+
 export default async function Image({ params }) {
-  const dish = await getDish(params.id);
+  const { id } = await params;
+  const dish = await getDish(id);
 
   return new ImageResponse(
     (

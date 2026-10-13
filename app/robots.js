@@ -4,7 +4,7 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/cart", "/checkout"],
+      disallow: ["/account", "/api/", "/cart", "/checkout", "/orders/"],
     },
     sitemap: "https://addiseats.et/sitemap.xml",
   };
