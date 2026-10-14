@@ -5,14 +5,11 @@ import DishList from "@/components/DishList";
 import CategoryBar from "./CategoryBar";
 import SearchBox from "./SearchBox";
 
+const categories = ["All", "Main", "Grills", "Sides", "Vegetarians", "Drinks"];
+
 export default function MenuBrowser({ dishes }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
-
-  const categories = useMemo(
-    () => ["All", ...new Set(dishes.map((dish) => dish.category))],
-    [dishes],
-  );
 
   const filteredDishes = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();

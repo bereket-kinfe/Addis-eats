@@ -17,6 +17,12 @@ export default async function AccountPage({ searchParams }) {
       {session ? (
         <div className="mt-4 space-y-4">
           <p className="text-slate-700">Signed in as <strong>{session.name}</strong>.</p>
+          <Link
+            href="/orders"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            View your orders
+          </Link>
           <form action={signOut}>
             <button
               type="submit"

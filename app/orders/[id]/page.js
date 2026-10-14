@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { getOrderForSession } from "@/lib/db";
 import { requireSession } from "@/lib/session";
-import OrderStatus from "./OrderStatus";
+import { getCurrentOrderStatus } from "@/lib/order-status";
+import OrderTracking from "./OrderTracking";
 
 export const metadata = {
   title: "Track your order",
@@ -19,7 +20,10 @@ export default async function OrderPage({ params }) {
       <p className="mt-4 text-slate-600">
         {order.items.map((item) => `${item.name} × ${item.quantity}`).join(", ")}
       </p>
-      <OrderStatus orderId={order.id} initialStatus={order.status} />
+      <OrderTracking
+        orderId={order.id}
+        initialStatus={getCurrentOrderStatus(order)}
+      />
     </main>
   );
 }

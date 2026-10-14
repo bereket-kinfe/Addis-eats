@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+import { dishes } from "@/lib/dishes";
 
 export default function HomePage() {
   const jsonLd = {
@@ -30,6 +32,46 @@ export default function HomePage() {
           <Link href="/cart" className="rounded-lg border border-slate-300 px-5 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50">
             View Cart
           </Link>
+        </div>
+      </section>
+
+      <section className="space-y-4" aria-labelledby="featured-dishes">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-600">Made fresh</p>
+            <h2 id="featured-dishes" className="mt-1 text-2xl font-bold text-slate-900">
+              A taste of Ethiopia
+            </h2>
+          </div>
+          <Link href="/menu" className="text-sm font-semibold text-blue-600 hover:underline">
+            See the full menu
+          </Link>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {dishes.slice(0, 3).map((dish) => (
+            <Link
+              key={dish.id}
+              href={`/menu/${dish.id}`}
+              className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:shadow-md"
+            >
+              <div className="relative aspect-[4/3] bg-slate-100">
+                <Image
+                  src={dish.image}
+                  alt={dish.name}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex items-center justify-between gap-3 p-4">
+                <div>
+                  <h3 className="font-bold text-slate-900">{dish.name}</h3>
+                  <p className="text-sm text-slate-500">{dish.category}</p>
+                </div>
+                <span className="text-sm font-semibold text-red-700">{dish.price} ETB</span>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

@@ -1,20 +1,91 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import CartLink from "@/components/CartLink";
 
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/menu", label: "Menu" },
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/checkout", label: "Checkout" },
+  { href: "/orders", label: "Orders" },
+];
+
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <header className="mb-6 flex flex-col gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-        <Link href="/" className="text-lg font-black text-red-600">Addis Eats</Link>
-        <nav className="flex items-center gap-3 text-sm font-semibold text-slate-700 sm:gap-4">
-          <Link href="/" className="transition hover:text-red-600">Home</Link>
-          <Link href="/menu" className="transition hover:text-red-600">Menu</Link>
-          <Link href="/checkout" className="transition hover:text-red-600">Checkout</Link>
-          <Link href="/account" className="transition hover:text-red-600">Account</Link>
-        </nav>
+    <header className="mb-6 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+      <div className="flex items-center justify-between gap-3">
+        <Link href="/" className="inline-flex shrink-0 items-center" aria-label="Addis Eats home">
+          <Image
+            src="/images/logo1.png"
+            alt="Addis Eats"
+            width={56}
+            height={56}
+            priority
+            className="h-12 w-12 object-contain sm:h-14 sm:w-14"
+          />
+        </Link>
+
+        <div className="hidden items-center gap-3 text-sm font-semibold text-slate-700 sm:flex sm:gap-4">
+          {navItems.map((item) => (
+            <Link key={item.href} href={item.href} className="transition hover:text-red-600">
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Link
+            href="/account"
+            className="hidden items-center rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 sm:inline-flex sm:shrink-0"
+          >
+            Account
+          </Link>
+          <CartLink />
+
+          <button
+            type="button"
+            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setIsMenuOpen((previous) => !previous)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition hover:bg-slate-50 sm:hidden"
+          >
+            <span className="sr-only">Menu</span>
+            <span className="flex flex-col gap-1.5">
+              <span className={`block h-0.5 w-5 rounded-full bg-current transition ${isMenuOpen ? "translate-y-2 rotate-45" : ""}`} />
+              <span className={`block h-0.5 w-5 rounded-full bg-current transition ${isMenuOpen ? "opacity-0" : "opacity-100"}`} />
+              <span className={`block h-0.5 w-5 rounded-full bg-current transition ${isMenuOpen ? "-translate-y-2 -rotate-45" : ""}`} />
+            </span>
+          </button>
+        </div>
       </div>
 
-      <CartLink />
+      {isMenuOpen && (
+        <nav id="mobile-nav" className="mt-3 flex flex-col gap-2 border-t border-slate-200 pt-3 sm:hidden">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setIsMenuOpen(false)}
+              className="rounded-lg px-2 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-red-600"
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link
+            href="/account"
+            onClick={() => setIsMenuOpen(false)}
+            className="rounded-lg border border-slate-200 px-2 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Account
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }
