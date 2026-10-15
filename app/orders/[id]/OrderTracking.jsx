@@ -26,6 +26,7 @@ export default function OrderTracking({ orderId, initialStatus }) {
             <ul className="mt-3 space-y-2">
               <li><span className="font-semibold text-slate-900">Restaurant:</span> Bole, Addis Ababa</li>
               <li><span className="font-semibold text-slate-900">Courier:</span> Traveling by road from the restaurant to the delivery address</li>
+              <li><span className="font-semibold text-slate-900">Delivery address:</span> Addis Ababa, at map coordinates 8.9800° N, 38.7500° E</li>
               <li><span className="font-semibold text-slate-900">Status:</span> {status}</li>
             </ul>
           </div>

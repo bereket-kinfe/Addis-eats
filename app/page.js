@@ -2,6 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { dishes } from "@/lib/dishes";
 
+export const metadata = {
+  title: "Ethiopian Food Delivery in Addis Ababa",
+  description: "Order fresh Doro Wat, Tibs, Kitfo, and other Ethiopian favourites for delivery across Addis Ababa.",
+};
+
 export default function HomePage() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -26,10 +31,10 @@ export default function HomePage() {
           Discover classic dishes like Doro Wat, Kitfo, and Shiro made with authentic ingredients and delivered fast.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Link href="/menu" className="rounded-lg bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700">
+          <Link href="/menu" className="inline-flex min-h-12 items-center rounded-lg bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700">
             Explore Menu
           </Link>
-          <Link href="/cart" className="rounded-lg border border-slate-300 px-5 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50">
+          <Link href="/cart" className="inline-flex min-h-12 items-center rounded-lg border border-slate-300 px-5 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50">
             View Cart
           </Link>
         </div>
@@ -43,7 +48,7 @@ export default function HomePage() {
               A taste of Ethiopia
             </h2>
           </div>
-          <Link href="/menu" className="text-sm font-semibold text-blue-600 hover:underline">
+          <Link href="/menu" className="inline-flex min-h-11 items-center text-sm font-semibold text-blue-600 hover:underline">
             See the full menu
           </Link>
         </div>
@@ -59,7 +64,7 @@ export default function HomePage() {
                   src={dish.image}
                   alt={dish.name}
                   fill
-                  sizes="(min-width: 640px) 33vw, 100vw"
+                  sizes="(min-width: 1152px) 342px, (min-width: 640px) calc((100vw - 128px) / 3), calc(100vw - 72px)"
                   className="object-cover transition duration-300 group-hover:scale-105"
                 />
               </div>

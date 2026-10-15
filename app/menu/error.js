@@ -6,7 +6,7 @@ export default function Error({ error, reset }) {
       <p>{error?.message || "An unexpected error occurred."}</p>
       <button
         onClick={() => reset()}
-        className="mt-2 bg-red-600 text-white px-3 py-1 rounded"
+        className="mt-2 min-h-11 bg-red-600 text-white px-3 py-2 rounded"
       >
         Try Again
       </button>

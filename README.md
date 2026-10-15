@@ -9,7 +9,11 @@ npm install
 npm run dev
 ```
 
-Open <http://localhost:3000>. Use **Account** to sign in with a display name, then add dishes to the cart and place an order.
+Open <http://localhost:3000>. Use **Account** to sign in with a display name, or configure Google OAuth below to continue with a Google account. Then add dishes to the cart and place an order.
+
+## Google sign-in
+
+Create an OAuth 2.0 Web application client in Google Cloud Console. Add `http://localhost:3000/api/auth/google/callback` as an authorized redirect URI, then set `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `GOOGLE_REDIRECT_URI` in `.env.local` (see `.env.example`). Set `ADMIN_EMAILS` to a comma-separated allowlist of verified Google account emails that may access `/admin`. Admin status is assigned only during successful Google sign-in; display-name sign-in is always customer-only. For deployment, configure the exact HTTPS callback URL for that host. Google sign-in verifies the OAuth state and Google profile, and returning Google accounts keep access to orders associated with that account.
 
 ## Sessions and data
 

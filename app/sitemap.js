@@ -8,6 +8,7 @@ export default async function sitemap() {
   return [
     { url: "https://addiseats.et/", lastModified, changeFrequency: "weekly", priority: 1 },
     { url: "https://addiseats.et/menu", lastModified, changeFrequency: "daily", priority: 0.8 },
+    { url: "https://addiseats.et/admin", lastModified, changeFrequency: "daily", priority: 0.6 },
     ...dishes.map((d) => ({
       url: `https://addiseats.et/menu/${d.id}`,
       lastModified,

@@ -62,7 +62,7 @@ export default async function DishPage({ params }) {
           alt={`${dish.name} served at Addis Eats`}
           fill
           priority
-          sizes="(min-width: 1024px) 960px, 100vw"
+          sizes="(min-width: 1152px) 1072px, (min-width: 640px) calc(100vw - 80px), calc(100vw - 64px)"
           className="object-cover"
         />
       </div>

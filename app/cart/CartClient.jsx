@@ -20,7 +20,7 @@ export default function CartClient() {
         <p className="mb-6 text-gray-600">Your cart is empty. Add a few dishes from the menu.</p>
         <button
           onClick={() => router.push("/menu")}
-          className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700"
+          className="min-h-11 rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700"
         >
           Browse Menu
         </button>
@@ -42,7 +42,7 @@ export default function CartClient() {
               <button
                 type="button"
                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                className="h-8 w-8 rounded border border-slate-300"
+                className="h-11 w-11 rounded border border-slate-300"
               >
                 -
               </button>
@@ -50,14 +50,14 @@ export default function CartClient() {
               <button
                 type="button"
                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                className="h-8 w-8 rounded border border-slate-300"
+                className="h-11 w-11 rounded border border-slate-300"
               >
                 +
               </button>
               <button
                 type="button"
                 onClick={() => removeItem(item.id)}
-                className="text-sm font-medium text-red-600 sm:ml-2"
+                className="min-h-11 px-2 text-sm font-medium text-red-600 sm:ml-2"
               >
                 Remove
               </button>
@@ -73,7 +73,7 @@ export default function CartClient() {
 
       <button
         onClick={handleProceedToCheckout}
-        className="w-full rounded-lg bg-green-600 py-3 font-bold text-white transition-colors hover:bg-green-700"
+        className="min-h-12 w-full rounded-lg bg-green-600 py-3 font-bold text-white transition-colors hover:bg-green-700"
       >
         Proceed to Checkout
       </button>

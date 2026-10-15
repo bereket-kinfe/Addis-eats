@@ -19,7 +19,7 @@ export default function DishList({ dishes = [] }) {
               alt={`${dish.name} served at Addis Eats`}
               fill
               priority={index === 0}
-              sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+              sizes="(min-width: 1280px) 347px, (min-width: 1152px) 528px, (min-width: 768px) calc((100vw - 96px) / 2), (min-width: 640px) calc(100vw - 80px), calc(100vw - 64px)"
               className="object-cover"
             />
           </div>
@@ -37,13 +37,13 @@ export default function DishList({ dishes = [] }) {
             <p className="mb-4 text-sm leading-6 text-slate-600">{dish.summary}</p>
 
             <div className="mt-3 flex items-center justify-between gap-2">
-              <Link href={`/menu/${dish.id}`} className="text-sm font-semibold text-blue-600 underline-offset-2 hover:underline">
+              <Link href={`/menu/${dish.id}`} className="inline-flex min-h-11 items-center text-sm font-semibold text-blue-600 underline-offset-2 hover:underline">
                 View Details
               </Link>
               <button
                 type="button"
                 onClick={() => addItem(dish)}
-                className="rounded bg-red-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
+                className="min-h-11 rounded bg-red-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
               >
                 Add to Cart
               </button>

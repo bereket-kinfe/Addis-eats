@@ -11,7 +11,7 @@ export default function EmptyOrders() {
       </p>
       <Link
         href="/menu"
-        className="mt-6 inline-flex rounded-lg bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700"
+        className="mt-6 inline-flex min-h-12 items-center rounded-lg bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700"
       >
         Start ordering
       </Link>

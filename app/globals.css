@@ -8,10 +8,27 @@ html {
   box-sizing: border-box;
 }
 
+:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+}
+
+.leaflet-control-zoom a {
+  width: 44px !important;
+  height: 44px !important;
+  line-height: 44px !important;
+}
+
+.leaflet-control-attribution a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
 }
 
 body {

@@ -19,13 +19,13 @@ export default function OrdersError({ error, retry }) {
         <button
           type="button"
           onClick={() => retry()}
-          className="rounded-lg bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700"
+          className="min-h-12 rounded-lg bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700"
         >
           Try again
         </button>
         <Link
           href="/menu"
-          className="rounded-lg border border-slate-300 px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+          className="inline-flex min-h-12 items-center rounded-lg border border-slate-300 px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
         >
           Back to menu
         </Link>
