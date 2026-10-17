@@ -41,7 +41,7 @@ export default async function AccountPage({ searchParams }) {
       ) : (
         <div className="mt-4 space-y-5">
           <p className="text-slate-600">
-            Sign in to place orders and track them in this demo.
+            Create your customer account or sign in before placing an order.
           </p>
           {query?.error === "invalid-name" && (
             <p role="alert" className="text-sm font-medium text-red-700">
@@ -68,12 +68,12 @@ export default async function AccountPage({ searchParams }) {
             Continue with Google
           </a>
           <div className="flex items-center gap-3 text-xs uppercase tracking-wide text-slate-400">
-            <span className="h-px flex-1 bg-slate-200" />or use a demo name<span className="h-px flex-1 bg-slate-200" />
+            <span className="h-px flex-1 bg-slate-200" />or use your name<span className="h-px flex-1 bg-slate-200" />
           </div>
           <form action={signIn} className="space-y-4">
           <input type="hidden" name="next" value={query?.next ?? "/cart"} />
           <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-700">Name</span>
+            <span className="mb-2 block text-sm font-medium text-slate-700">Your name</span>
             <input
               name="name"
               type="text"
@@ -88,7 +88,7 @@ export default async function AccountPage({ searchParams }) {
             type="submit"
             className="rounded-lg bg-red-600 px-4 py-2.5 font-semibold text-white transition hover:bg-red-700"
           >
-            Sign in
+            Create account / Sign in
           </button>
           <p className="text-sm text-slate-500">
             <Link href="/menu" className="inline-flex min-h-11 items-center underline underline-offset-2">Browse the menu</Link> without signing in.

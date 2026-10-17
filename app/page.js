@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { dishes } from "@/lib/dishes";
+import { getDishes } from "@/lib/dishes";
 
 export const metadata = {
   title: "Ethiopian Food Delivery in Addis Ababa",
   description: "Order fresh Doro Wat, Tibs, Kitfo, and other Ethiopian favourites for delivery across Addis Ababa.",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const dishes = await getDishes();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Restaurant",

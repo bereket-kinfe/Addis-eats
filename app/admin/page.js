@@ -2,6 +2,9 @@ import RevenueChart from "./RevenueChart";
 import OrdersByDayChart from "./OrdersByDayChart";
 import { getAllOrders } from "@/lib/db";
 import { etb, when } from "@/lib/format";
+import { requireAdmin } from "@/lib/session";
+import { getDishes } from "@/lib/dishes";
+import DishManager from "./DishManager";
 
 export const metadata = {
   title: "Admin",
@@ -9,7 +12,7 @@ export const metadata = {
 };
 
 export default async function AdminPage() {
-  const orders = await getAllOrders();
+  const [, orders, dishes] = await Promise.all([requireAdmin(), getAllOrders(), getDishes()]);
   const revenueByArea = orders.reduce((accumulator, order) => {
     const area = order.area || "Unknown";
     const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -35,7 +38,10 @@ export default async function AdminPage() {
     .map(([day, revenue]) => ({ day: when.format(new Date(`${day}T00:00:00Z`)), revenue }));
 
   return (
-    <main className="space-y-8 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8">
+    <main className="space-y-8">
+      <header className="rounded-2xl bg-slate-950 p-6 text-white sm:p-8"><p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-300">Addis Eats · Admin</p><h1 className="mt-2 text-3xl font-black">Dashboard</h1><p className="mt-2 text-slate-300">Manage the menu and review restaurant performance.</p></header>
+      <DishManager dishes={dishes} />
+      <section className="space-y-8 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8">
       <div className="space-y-2">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">Admin</p>
         <h1 className="text-3xl font-black text-slate-900">Revenue by area</h1>
@@ -69,6 +75,7 @@ export default async function AdminPage() {
             </tbody>
           </table>
         </div>
+      </section>
       </section>
     </main>
   );

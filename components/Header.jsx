@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CartLink from "@/components/CartLink";
+import { useTheme } from "@/components/ThemeProvider";
 
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/menu", label: "Menu" },
-  { href: "/admin", label: "Admin" },
   { href: "/checkout", label: "Checkout" },
   { href: "/orders", label: "Orders" },
 ];
@@ -16,6 +16,7 @@ const navItems = [
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef(null);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     if (!isMenuOpen) return undefined;
@@ -55,11 +56,13 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2">
+          <button type="button" onClick={toggleTheme} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`} className="inline-flex min-h-11 items-center rounded-full border border-slate-300 px-3 text-sm font-semibold text-slate-700">{theme === "light" ? "☾" : "☀"}</button>
+          <Link href="/admin/login" className="inline-flex min-h-11 items-center rounded-full border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Admin</Link>
           <Link
             href="/account"
             className="hidden min-h-11 items-center rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 sm:inline-flex sm:shrink-0"
           >
-            Account
+            Sign in
           </Link>
           <CartLink />
 
@@ -99,8 +102,9 @@ export default function Header() {
             onClick={() => setIsMenuOpen(false)}
             className="min-h-11 rounded-lg border border-slate-200 px-2 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
           >
-            Account
+            Sign in
           </Link>
+          <Link href="/admin/login" onClick={() => setIsMenuOpen(false)} className="min-h-11 rounded-lg border border-slate-200 px-2 py-3 text-sm font-semibold text-slate-700">Admin</Link>
         </nav>
       )}
     </header>

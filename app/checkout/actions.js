@@ -51,7 +51,7 @@ export async function placeOrder(cartItems, idempotencyKey, deliveryDetails) {
     seenDishIds.add(item.id);
 
     const dish = await getDish(item.id);
-    if (!dish) {
+    if (!dish || dish.available === false) {
       return { error: "A dish in your cart is no longer available." };
     }
 

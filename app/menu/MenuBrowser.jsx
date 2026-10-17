@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DishList from "@/components/DishList";
 import CategoryBar from "./CategoryBar";
 import SearchBox from "./SearchBox";
@@ -8,13 +8,25 @@ import SearchBox from "./SearchBox";
 const categories = ["All", "Main", "Grills", "Sides", "Vegetarians", "Drinks"];
 
 export default function MenuBrowser({ dishes }) {
+  const [catalog, setCatalog] = useState(dishes);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("addis-eats-dishes");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) setCatalog(parsed);
+      }
+    } catch { /* Keep the bundled catalog if browser storage is unavailable. */ }
+  }, []);
 
   const filteredDishes = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
 
-    return dishes.filter((dish) => {
+    return catalog.filter((dish) => {
+      if (dish.available === false) return false;
       const matchesCategory = selectedCategory === "All" || dish.category === selectedCategory;
       const matchesSearch =
         term.length === 0 ||
@@ -24,7 +36,7 @@ export default function MenuBrowser({ dishes }) {
 
       return matchesCategory && matchesSearch;
     });
-  }, [dishes, searchTerm, selectedCategory]);
+  }, [catalog, searchTerm, selectedCategory]);
 
   return (
     <main className="space-y-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-6">
