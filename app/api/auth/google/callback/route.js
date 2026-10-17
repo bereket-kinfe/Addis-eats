@@ -25,10 +25,10 @@ export async function GET(request) {
   const cookieValue = request.cookies.get(GOOGLE_STATE_COOKIE)?.value || "";
   const separatorIndex = cookieValue.indexOf(":");
   const expectedState = cookieValue.slice(0, separatorIndex);
-  let next = "/cart";
+  let next = "/account";
   try {
     if (separatorIndex >= 1) {
-      next = getSafeReturnPath(decodeURIComponent(cookieValue.slice(separatorIndex + 1) || "%2Fcart"));
+      next = getSafeReturnPath(decodeURIComponent(cookieValue.slice(separatorIndex + 1) || "%2Faccount"));
     }
   } catch {
     return accountError(request);
@@ -41,7 +41,7 @@ export async function GET(request) {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const redirectUri = process.env.GOOGLE_REDIRECT_URI || new URL("/api/auth/google/callback", request.url).toString();
-  if (!clientId || !clientSecret) {
+  if (!clientId || !clientSecret || Buffer.byteLength(process.env.SESSION_SECRET || "") < 32) {
     return NextResponse.redirect(new URL("/account?error=google-not-configured", request.url));
   }
 
@@ -68,13 +68,12 @@ export async function GET(request) {
     });
     if (!profileResponse.ok) return accountError(request);
     const profile = await profileResponse.json();
-    if (profile.email_verified !== true || typeof profile.email !== "string" || typeof profile.name !== "string" || typeof profile.sub !== "string") {
+    if (profile.email_verified !== true || typeof profile.email !== "string" || typeof profile.sub !== "string") {
       return accountError(request);
     }
 
-    const name = profile.name.trim().slice(0, 40);
-    if (name.length < 2) return accountError(request);
     const email = profile.email.trim().toLowerCase();
+    const name = (typeof profile.name === "string" ? profile.name.trim() : "").slice(0, 40) || email.split("@")[0].slice(0, 40) || "Customer";
     await startSession(name, profile.sub, email, isAdminEmail(email) ? "admin" : "customer");
     const response = NextResponse.redirect(new URL(next, request.url));
     response.cookies.set(GOOGLE_STATE_COOKIE, "", { path: "/api/auth/google/callback", maxAge: 0 });

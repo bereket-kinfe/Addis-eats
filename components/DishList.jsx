@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 
 const formatPrice = (price) => `${Number(price).toLocaleString()} ETB`;
 
 export default function DishList({ dishes = [] }) {
-  const { addItem } = useCart();
+  const { addItem, itemCount } = useCart();
+  const [announcement, setAnnouncement] = useState("");
 
   return (
     <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -42,7 +44,10 @@ export default function DishList({ dishes = [] }) {
               </Link>
               <button
                 type="button"
-                onClick={() => addItem(dish)}
+                onClick={() => {
+                  addItem(dish);
+                  setAnnouncement(`${dish.name} added. Your cart now has ${itemCount + 1} ${itemCount === 0 ? "item" : "items"}.`);
+                }}
                 className="min-h-11 rounded bg-red-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
               >
                 Add to Cart
@@ -51,6 +56,7 @@ export default function DishList({ dishes = [] }) {
           </div>
         </article>
       ))}
+      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{announcement}</p>
     </div>
   );
 }

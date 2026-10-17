@@ -1,6 +1,8 @@
 export default function Loading() {
   return (
     <main
+      id="main-content"
+      tabIndex={-1}
       aria-busy="true"
       aria-label="Loading your orders"
       className="space-y-6 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8"

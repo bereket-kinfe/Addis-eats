@@ -5,12 +5,14 @@ import { getSafeReturnPath } from "@/lib/redirects";
 
 export async function GET(request) {
   const clientId = process.env.GOOGLE_CLIENT_ID;
-  if (!clientId) {
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const sessionSecret = process.env.SESSION_SECRET || "";
+  if (!clientId || !clientSecret || Buffer.byteLength(sessionSecret) < 32) {
     return NextResponse.redirect(new URL("/account?error=google-not-configured", request.url));
   }
 
   const state = randomBytes(32).toString("base64url");
-  const next = getSafeReturnPath(request.nextUrl.searchParams.get("next"));
+  const next = getSafeReturnPath(request.nextUrl.searchParams.get("next") || "/account");
   const callbackUrl = process.env.GOOGLE_REDIRECT_URI || new URL("/api/auth/google/callback", request.url).toString();
   const authorizationUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
   authorizationUrl.search = new URLSearchParams({

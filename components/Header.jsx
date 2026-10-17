@@ -33,7 +33,9 @@ export default function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header className="mb-6 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+    <>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+      <header className="mb-6 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
       <div className="flex items-center justify-between gap-3">
         <Link href="/" className="inline-flex shrink-0 items-center" aria-label="Addis Eats home">
           <Image
@@ -47,13 +49,13 @@ export default function Header() {
           />
         </Link>
 
-        <div className="hidden items-center gap-3 text-sm font-semibold text-slate-700 sm:flex sm:gap-4">
+        <nav aria-label="Main navigation" className="hidden items-center gap-3 text-sm font-semibold text-slate-700 sm:flex sm:gap-4">
           {navItems.map((item) => (
             <Link key={item.href} href={item.href} className="inline-flex min-h-11 items-center transition hover:text-red-600">
               {item.label}
             </Link>
           ))}
-        </div>
+        </nav>
 
         <div className="flex items-center gap-2">
           <button type="button" onClick={toggleTheme} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`} className="inline-flex min-h-11 items-center rounded-full border border-slate-300 px-3 text-sm font-semibold text-slate-700">{theme === "light" ? "☾" : "☀"}</button>
@@ -71,7 +73,7 @@ export default function Header() {
             type="button"
             aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={isMenuOpen}
-            aria-controls="mobile-nav"
+            aria-controls={isMenuOpen ? "mobile-nav" : undefined}
             onClick={() => setIsMenuOpen((previous) => !previous)}
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition hover:bg-slate-50 sm:hidden"
           >
@@ -86,7 +88,7 @@ export default function Header() {
       </div>
 
       {isMenuOpen && (
-        <nav id="mobile-nav" className="mt-3 flex flex-col gap-2 border-t border-slate-200 pt-3 sm:hidden">
+        <nav id="mobile-nav" aria-label="Mobile navigation" className="mt-3 flex flex-col gap-2 border-t border-slate-200 pt-3 sm:hidden">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -107,6 +109,7 @@ export default function Header() {
           <Link href="/admin/login" onClick={() => setIsMenuOpen(false)} className="min-h-11 rounded-lg border border-slate-200 px-2 py-3 text-sm font-semibold text-slate-700">Admin</Link>
         </nav>
       )}
-    </header>
+      </header>
+    </>
   );
 }

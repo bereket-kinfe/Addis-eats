@@ -39,7 +39,7 @@ export default function MenuBrowser({ dishes }) {
   }, [catalog, searchTerm, selectedCategory]);
 
   return (
-    <main className="space-y-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-6">
+    <main id="main-content" tabIndex={-1} className="space-y-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-6">
       <div className="space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-600">Menu</p>
         <h1 className="text-2xl font-black text-slate-900 sm:text-3xl">Our Menu</h1>
@@ -51,7 +51,7 @@ export default function MenuBrowser({ dishes }) {
       </div>
 
       <div className="flex items-center justify-between">
-        <p className="text-sm text-slate-600">{filteredDishes.length} dishes found</p>
+        <p className="text-sm text-slate-600" aria-live="polite" aria-atomic="true">{filteredDishes.length} dishes found</p>
       </div>
 
       {filteredDishes.length === 0 ? (

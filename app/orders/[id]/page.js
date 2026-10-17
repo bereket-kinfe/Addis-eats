@@ -15,7 +15,7 @@ export default async function OrderPage({ params }) {
   if (!order) notFound();
 
   return (
-    <main className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-6">
+    <main id="main-content" tabIndex={-1} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-6">
       <h1 className="break-all text-2xl font-bold text-slate-900">Order #{order.id}</h1>
       <p className="mt-4 text-slate-600">
         {order.items.map((item) => `${item.name} × ${item.quantity}`).join(", ")}

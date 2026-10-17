@@ -55,7 +55,7 @@ export default async function OrdersPage({ searchParams }) {
   const pageOrders = sortedOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <main className="space-y-6 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8">
+    <main id="main-content" tabIndex={-1} className="space-y-6 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8">
       <header className="space-y-2">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-600">Order history</p>
         <h1 className="text-3xl font-black text-slate-900">Your orders</h1>

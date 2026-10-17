@@ -9,6 +9,7 @@ export default function CategoryBar({ categories, selected, onSelect }) {
             <button
               key={category}
               type="button"
+              aria-pressed={isSelected}
               onClick={() => onSelect(category)}
               className={`min-h-11 shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
                 isSelected

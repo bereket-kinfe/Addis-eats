@@ -20,7 +20,7 @@ export default async function HomePage() {
   };
 
   return (
-    <main className="space-y-8 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8">
+    <main id="main-content" tabIndex={-1} className="space-y-8 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
