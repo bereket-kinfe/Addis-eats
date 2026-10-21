@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { downloadCsv, toCsv } from "@/lib/csv";
+import { downloadCsv, toCsv } from "@/lib/exportCsv";
 import { etb, when } from "@/lib/format";
-import { getPaginationModel } from "@/lib/order-pagination.mjs";
 
 const sortableColumns = [
   { key: "createdAt", label: "Date placed" },
@@ -28,7 +27,7 @@ function SortLink({ column, currentSort, direction }) {
   return (
     <Link
       href={href}
-      className="inline-flex min-h-11 items-center gap-1 px-2 hover:text-red-700"
+      className="inline-flex items-center gap-1 hover:text-red-700"
       aria-label={`Sort by ${column.label}${isCurrentSort ? `, currently ${direction}ending` : ""}`}
     >
       {column.label}
@@ -50,7 +49,6 @@ export default function OrderTable({
 }) {
   const firstOrderNumber = (page - 1) * pageSize + 1;
   const lastOrderNumber = Math.min(page * pageSize, totalOrders);
-  const pagination = getPaginationModel(page, totalPages);
 
   const handleExport = () => {
     const rows = orders.map((order) => ({
@@ -70,7 +68,6 @@ export default function OrderTable({
 
       <div className="overflow-x-auto rounded-xl border border-slate-200">
         <table className="w-full min-w-[720px] divide-y divide-slate-200 text-left text-sm">
-          <caption className="sr-only">Your orders, sorted by {sort} in {direction}ending order</caption>
           <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-600">
             <tr>
               {sortableColumns.map((column) => (
@@ -84,7 +81,7 @@ export default function OrderTable({
                 </th>
               ))}
               <th scope="col" className="px-4 py-3 font-semibold">Items</th>
-              <th scope="col" className="px-4 py-3 text-right font-semibold">Order total</th>
+              <th scope="col" className="px-4 py-3 font-semibold">Order total</th>
               <th scope="col" className="px-4 py-3 font-semibold">Details</th>
             </tr>
           </thead>
@@ -102,13 +99,13 @@ export default function OrderTable({
                 <td className="max-w-xs px-4 py-4">
                   {order.items.map((item) => `${item.name} × ${item.quantity}`).join(", ")}
                 </td>
-                <td className="whitespace-nowrap px-4 py-4 text-right font-semibold text-slate-900">
+                <td className="whitespace-nowrap px-4 py-4 font-semibold text-slate-900">
                   {etb.format(totalFor(order))}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4">
                   <Link
                     href={`/orders/${encodeURIComponent(order.id)}`}
-                    className="inline-flex min-h-11 items-center font-semibold text-red-700 underline underline-offset-2 hover:text-red-800"
+                    className="font-semibold text-red-700 underline underline-offset-2 hover:text-red-800"
                     aria-label={`View order from ${when.format(new Date(order.createdAt))}`}
                   >
                     View order
@@ -126,16 +123,16 @@ export default function OrderTable({
           <button
             type="button"
             onClick={handleExport}
-            className="min-h-11 rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
           >
             Export CSV
           </button>
         </div>
         <div className="flex items-center gap-2">
-          {pagination.previousPage ? (
+          {page > 1 ? (
             <Link
-              href={ordersHref(pagination.previousPage, sort, direction)}
-              className="min-h-11 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              href={ordersHref(page - 1, sort, direction)}
+              className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
             >
               Previous
             </Link>
@@ -144,10 +141,10 @@ export default function OrderTable({
               Previous
             </span>
           )}
-          {pagination.nextPage ? (
+          {page < totalPages ? (
             <Link
-              href={ordersHref(pagination.nextPage, sort, direction)}
-              className="min-h-11 rounded-lg border border-slate-300 px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              href={ordersHref(page + 1, sort, direction)}
+              className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
             >
               Next
             </Link>

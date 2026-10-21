@@ -1,5 +1,5 @@
 
-import { getDishes } from "@/lib/api";
+import { getDishes, getDishSlug } from "@/lib/api";
 
 export default async function sitemap() {
   const dishes = await getDishes();
@@ -8,9 +8,8 @@ export default async function sitemap() {
   return [
     { url: "https://addiseats.et/", lastModified, changeFrequency: "weekly", priority: 1 },
     { url: "https://addiseats.et/menu", lastModified, changeFrequency: "daily", priority: 0.8 },
-    { url: "https://addiseats.et/admin", lastModified, changeFrequency: "daily", priority: 0.6 },
     ...dishes.map((d) => ({
-      url: `https://addiseats.et/menu/${d.id}`,
+      url: `https://addiseats.et/menu/${getDishSlug(d)}`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.6,

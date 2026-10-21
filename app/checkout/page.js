@@ -7,6 +7,6 @@ export const metadata = {
 };
 
 export default async function CheckoutPage() {
-  const session = await requireSession("/checkout");
-  return <CheckoutClient initialName={session.name} />;
+  await requireSession("/checkout");
+  return <CheckoutClient />;
 }

@@ -1,5 +1,5 @@
 
-import { getDish } from "@/lib/api";
+import { getDish, getDishSlug } from "@/lib/api";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
@@ -9,12 +9,13 @@ export async function generateMetadata({ params }) {
   if (!dish) return { title: "Dish not found" };
 
   const description = `${dish.name} for ${dish.price} ETB. ${dish.summary ?? ""}`;
-  const image = `/menu/${dish.id}/opengraph-image`;
+  const slug = getDishSlug(dish);
+  const image = `/menu/${slug}/opengraph-image`;
 
   return {
     title: dish.name,
     description,
-    alternates: { canonical: `/menu/${dish.id}` },
+    alternates: { canonical: `/menu/${slug}` },
     openGraph: {
       title: dish.name,
       description,
@@ -49,7 +50,7 @@ export default async function DishPage({ params }) {
   };
 
   return (
-    <main id="main-content" tabIndex={-1} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-6">
+    <main className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -62,7 +63,7 @@ export default async function DishPage({ params }) {
           alt={`${dish.name} served at Addis Eats`}
           fill
           priority
-          sizes="(min-width: 1152px) 1072px, (min-width: 640px) calc(100vw - 80px), calc(100vw - 64px)"
+          sizes="(min-width: 1024px) 960px, 100vw"
           className="object-cover"
         />
       </div>

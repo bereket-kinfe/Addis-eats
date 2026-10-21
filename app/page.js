@@ -1,14 +1,9 @@
 import Link from "next/link";
+import { getDishSlug } from "@/lib/dishes";
 import Image from "next/image";
-import { getDishes } from "@/lib/dishes";
+import { dishes } from "@/lib/dishes";
 
-export const metadata = {
-  title: "Ethiopian Food Delivery in Addis Ababa",
-  description: "Order fresh Doro Wat, Tibs, Kitfo, and other Ethiopian favourites for delivery across Addis Ababa.",
-};
-
-export default async function HomePage() {
-  const dishes = await getDishes();
+export default function HomePage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Restaurant",
@@ -20,7 +15,7 @@ export default async function HomePage() {
   };
 
   return (
-    <main id="main-content" tabIndex={-1} className="space-y-8 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8">
+    <main className="space-y-8 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
@@ -32,10 +27,10 @@ export default async function HomePage() {
           Discover classic dishes like Doro Wat, Kitfo, and Shiro made with authentic ingredients and delivered fast.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Link href="/menu" className="inline-flex min-h-12 items-center rounded-lg bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700">
+          <Link href="/menu" className="rounded-lg bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700">
             Explore Menu
           </Link>
-          <Link href="/cart" className="inline-flex min-h-12 items-center rounded-lg border border-slate-300 px-5 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50">
+          <Link href="/cart" className="rounded-lg border border-slate-300 px-5 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50">
             View Cart
           </Link>
         </div>
@@ -49,7 +44,7 @@ export default async function HomePage() {
               A taste of Ethiopia
             </h2>
           </div>
-          <Link href="/menu" className="inline-flex min-h-11 items-center text-sm font-semibold text-blue-600 hover:underline">
+          <Link href="/menu" className="text-sm font-semibold text-blue-600 hover:underline">
             See the full menu
           </Link>
         </div>
@@ -57,7 +52,7 @@ export default async function HomePage() {
           {dishes.slice(0, 3).map((dish) => (
             <Link
               key={dish.id}
-              href={`/menu/${dish.id}`}
+              href={`/menu/${getDishSlug(dish)}`}
               className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:shadow-md"
             >
               <div className="relative aspect-[4/3] bg-slate-100">
@@ -65,7 +60,7 @@ export default async function HomePage() {
                   src={dish.image}
                   alt={dish.name}
                   fill
-                  sizes="(min-width: 1152px) 342px, (min-width: 640px) calc((100vw - 128px) / 3), calc(100vw - 72px)"
+                  sizes="(min-width: 640px) 33vw, 100vw"
                   className="object-cover transition duration-300 group-hover:scale-105"
                 />
               </div>

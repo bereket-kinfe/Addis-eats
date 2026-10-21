@@ -4,6 +4,7 @@ import { startSession } from "@/lib/session";
 import { GOOGLE_STATE_COOKIE } from "@/lib/session-constants";
 import { getSafeReturnPath } from "@/lib/redirects";
 import { isAdminEmail } from "@/lib/admin-auth";
+import { getGoogleOAuthConfig } from "@/lib/google-oauth";
 
 function statesMatch(expected, actual) {
   if (!expected || !actual) return false;
@@ -38,10 +39,8 @@ export async function GET(request) {
     return accountError(request);
   }
 
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const redirectUri = process.env.GOOGLE_REDIRECT_URI || new URL("/api/auth/google/callback", request.url).toString();
-  if (!clientId || !clientSecret || Buffer.byteLength(process.env.SESSION_SECRET || "") < 32) {
+  const config = getGoogleOAuthConfig(request.url);
+  if (!config) {
     return NextResponse.redirect(new URL("/account?error=google-not-configured", request.url));
   }
 
@@ -51,9 +50,9 @@ export async function GET(request) {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
         code,
-        client_id: clientId,
-        client_secret: clientSecret,
-        redirect_uri: redirectUri,
+        client_id: config.clientId,
+        client_secret: config.clientSecret,
+        redirect_uri: config.redirectUri,
         grant_type: "authorization_code",
       }),
       cache: "no-store",

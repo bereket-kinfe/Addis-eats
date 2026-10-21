@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import DishList from "@/components/DishList";
 import CategoryBar from "./CategoryBar";
 import SearchBox from "./SearchBox";
@@ -8,25 +8,13 @@ import SearchBox from "./SearchBox";
 const categories = ["All", "Main", "Grills", "Sides", "Vegetarians", "Drinks"];
 
 export default function MenuBrowser({ dishes }) {
-  const [catalog, setCatalog] = useState(dishes);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("addis-eats-dishes");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) setCatalog(parsed);
-      }
-    } catch { /* Keep the bundled catalog if browser storage is unavailable. */ }
-  }, []);
 
   const filteredDishes = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
 
-    return catalog.filter((dish) => {
-      if (dish.available === false) return false;
+    return dishes.filter((dish) => {
       const matchesCategory = selectedCategory === "All" || dish.category === selectedCategory;
       const matchesSearch =
         term.length === 0 ||
@@ -36,10 +24,10 @@ export default function MenuBrowser({ dishes }) {
 
       return matchesCategory && matchesSearch;
     });
-  }, [catalog, searchTerm, selectedCategory]);
+  }, [dishes, searchTerm, selectedCategory]);
 
   return (
-    <main id="main-content" tabIndex={-1} className="space-y-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-6">
+    <main className="space-y-6 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-6">
       <div className="space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-600">Menu</p>
         <h1 className="text-2xl font-black text-slate-900 sm:text-3xl">Our Menu</h1>
@@ -51,7 +39,7 @@ export default function MenuBrowser({ dishes }) {
       </div>
 
       <div className="flex items-center justify-between">
-        <p className="text-sm text-slate-600" aria-live="polite" aria-atomic="true">{filteredDishes.length} dishes found</p>
+        <p className="text-sm text-slate-600">{filteredDishes.length} dishes found</p>
       </div>
 
       {filteredDishes.length === 0 ? (

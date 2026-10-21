@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "test": "node --test lib/order-pagination.test.mjs"
+    "lint": "eslint"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

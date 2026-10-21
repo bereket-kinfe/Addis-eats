@@ -8,7 +8,7 @@ export default function SearchBox({ value, onChange }) {
         onChange={(event) => onChange(event.target.value)}
         placeholder="Search by name or category"
         autoComplete="off"
-        className="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-slate-900 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
+        className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-slate-900 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
       />
     </label>
   );
